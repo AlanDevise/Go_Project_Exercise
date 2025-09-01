@@ -28,4 +28,10 @@ func main() {
 	fmt.Printf("arr2的首元素地址 = %p\n", &arr2[0])
 	fmt.Printf("arr2的次元素地址 = %p\n", &arr2[1])
 	fmt.Println("arr2 len =", len(arr2))
+
+	var array3 = [...]int{1, 3, 5, 7, 9}
+	fmt.Println("array3 =", array3)
+
+	var array4 = [...]int{1: 2, 3: 4, 5: 6} // 下标1是2，下标3是4，下标5是6
+	fmt.Println("array4 =", array4)
 }
