@@ -45,4 +45,21 @@ func main() {
 	slice[0] = 100
 	fmt.Println("Modified slice:", slice)
 	fmt.Println("Array after modifying slice:", intarr)
+
+	// 定义切片
+	// 使用make函数创建切片，指定类型、长度和容量
+	// 如果只指定长度，容量默认与长度相同
+	// 如果指定长度和容量，容量必须大于等于长度
+	slice2 := make([]int, 3, 5) // 长度为3，容量为5
+	fmt.Println("New slice:", slice2)
+	fmt.Println("Length of new slice:", len(slice2))
+	fmt.Println("Capacity of new slice:", cap(slice2))
+	// make函数创建的切片，底层数组是自动分配的，初始值为零值
+	fmt.Printf("Address of new slice: %p\n", &slice2)
+
+	slice3 := []int{1, 4, 7}
+	fmt.Println("Another slice:", slice3)
+	fmt.Println("Length of another slice:", len(slice3))
+	fmt.Println("Capacity of another slice:", cap(slice3))
+	fmt.Printf("Address of another slice: %p\n", &slice3)
 }
