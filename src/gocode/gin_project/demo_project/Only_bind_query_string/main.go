@@ -1,8 +1,9 @@
 package main // 声明为可执行程序包
 
 import (
+	"log" // 引入日志包，用于打印日志信息
+
 	"github.com/gin-gonic/gin" // 引入Gin框架，用于快速构建Web应用
-	"log"                      // 引入日志包，用于打印日志信息
 )
 
 // Person 定义结构体，用于接收HTTP请求中的查询参数
@@ -18,7 +19,10 @@ func main() {
 	// 注册/testing路由，支持所有HTTP方法（GET/POST等），由startPage函数处理请求
 	route.Any("/testing", startPage)
 	// 启动HTTP服务，监听本地8080端口
-	route.Run("127.0.0.1:8080")
+	err := route.Run("127.0.0.1:8080")
+	if err != nil {
+		return
+	}
 }
 
 // startPage 处理/testing路由的请求
