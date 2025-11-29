@@ -1,11 +1,12 @@
 package main
 
 import (
+	"errors"
 	"net/http"
 	"strconv"
 
 	"github.com/gin-gonic/gin" // Gin Web框架，用于快速构建HTTP服务
-	"gorm.io/driver/postgres"  // PostgreSQL数据库驱动
+	"gorm.io/driver/postgres"  // PostgresSQL数据库驱动
 	"gorm.io/gorm"             // GORM ORM框架，用于数据库操作
 )
 
@@ -24,7 +25,7 @@ func initDB() error {
 	// 数据库连接参数（主机、端口、用户、密码、数据库名等）
 	dsn := "host=127.0.0.1 port=15432 user=postgres password=AlanDevise2025 dbname=AlanDevise sslmode=disable search_path=AlanDevise,public"
 
-	// 建立PostgreSQL连接
+	// 建立PostgresSQL连接
 	var err error
 	db, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
@@ -74,7 +75,7 @@ func getUser(c *gin.Context) {
 	var user User
 	// 查询未被软删除的用户（deleted_at IS NULL）
 	if err := db.Where("deleted_at IS NULL").First(&user, id).Error; err != nil {
-		if err == gorm.ErrRecordNotFound {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
 			c.JSON(http.StatusNotFound, gin.H{"error": "用户不存在"})
 		} else {
 			c.JSON(http.StatusInternalServerError, gin.H{"error": "查询失败：" + err.Error()})
@@ -162,5 +163,8 @@ func main() {
 	}
 
 	// 启动HTTP服务，监听本地8080端口
-	router.Run("127.0.0.1:8080")
+	err := router.Run("127.0.0.1:8080")
+	if err != nil {
+		return
+	}
 }
